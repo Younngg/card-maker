@@ -3,6 +3,8 @@ import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import styles from './maker.module.css';
 import { useNavigate } from 'react-router-dom';
+import Editor from '../Editor/Editor';
+import Preview from '../Preview/Preview';
 
 const Maker = ({ authService }) => {
   const navigate = useNavigate();
@@ -22,6 +24,10 @@ const Maker = ({ authService }) => {
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
+      <div className={styles.container}>
+        <Editor />
+        <Preview />
+      </div>
       <Footer />
     </section>
   );
