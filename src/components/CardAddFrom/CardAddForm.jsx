@@ -27,7 +27,6 @@ const CardAddForm = ({ onAdd }) => {
       fileURL: '',
     };
     formRef.current.reset();
-
     onAdd(card);
   };
 
