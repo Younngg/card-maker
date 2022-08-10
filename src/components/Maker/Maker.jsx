@@ -7,42 +7,10 @@ import Editor from '../Editor/Editor';
 import Preview from '../Preview/Preview';
 import { useState } from 'react';
 
-const Maker = ({ FileInput, authService }) => {
-  const [cards, setCards] = useState({
-    1: {
-      id: '1',
-      name: '지영',
-      company: '없어',
-      theme: 'light',
-      title: 'software',
-      email: 'sldksl@slkd.com',
-      message: '짱',
-      fileName: '이미지',
-      fileURL: '이미지.png',
-    },
-    2: {
-      id: '2',
-      name: '지영',
-      company: '없어',
-      theme: 'dark',
-      title: 'software',
-      email: 'sldksl@slkd.com',
-      message: '짱',
-      fileName: '이미지',
-      fileURL: '이미지.png',
-    },
-    3: {
-      id: '3',
-      name: '지영',
-      company: '없어',
-      theme: 'colorful',
-      title: 'software',
-      email: 'sldksl@slkd.com',
-      message: '짱',
-      fileName: '이미지',
-      fileURL: null,
-    },
-  });
+const Maker = ({ FileInput, authService, cardRepository }) => {
+  const navigateState = useNavigate().state;
+  const [cards, setCards] = useState({});
+  const [userId, setUserId] = useState(navigateState && navigateState.id);
 
   const navigate = useNavigate();
 
@@ -51,8 +19,20 @@ const Maker = ({ FileInput, authService }) => {
   };
 
   useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const stopSync = cardRepository.syncCards(userId, (cards) => {
+      setCards(cards);
+    });
+    return () => stopSync();
+  }, [userId]);
+
+  useEffect(() => {
     authService.onAuthChange((user) => {
-      if (!user) {
+      if (user) {
+        setUserId(user.uid);
+      } else {
         navigate('/');
       }
     });
@@ -64,6 +44,7 @@ const Maker = ({ FileInput, authService }) => {
       updated[card.id] = card;
       return updated;
     });
+    cardRepository.saveCard(userId, card);
   };
 
   const deleteCard = (card) => {
@@ -72,6 +53,7 @@ const Maker = ({ FileInput, authService }) => {
       delete updated[card.id];
       return updated;
     });
+    cardRepository.removeCard(userId, card);
   };
 
   return (
