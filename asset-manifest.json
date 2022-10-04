@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/card-maker/static/css/main.19b5fdef.css",
+    "main.js": "/card-maker/static/js/main.22b05f66.js",
+    "index.html": "/card-maker/index.html",
+    "main.19b5fdef.css.map": "/card-maker/static/css/main.19b5fdef.css.map",
+    "main.22b05f66.js.map": "/card-maker/static/js/main.22b05f66.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.19b5fdef.css",
+    "static/js/main.22b05f66.js"
+  ]
+}
